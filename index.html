@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>prnt-rand</title>
+    <!-- CSS only -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor"
+      crossorigin="anonymous"
+    />
+    <!-- JavaScript Bundle with Popper -->
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2"
+      crossorigin="anonymous"
+    ></script>
+  </head>
+  <body>
+    <div class="container">
+      <h1 class="mb-3 mt-5">prnt.sc-rand</h1>
+      <h2>
+        <button
+          type="button"
+          class="btn btn-danger"
+          style="box-shadow: none !important; outline: 0px !important"
+          onclick="generateLink()"
+        >
+          I'm feeling lucky!
+        </button>
+      </h2>
+      <ul id="list" class="list-group"></ul>
+    </div>
+
+    <script>
+      const links = [];
+
+      function generateLink() {
+        const base = "https://prnt.sc/";
+        const str = generateLetters(2);
+        const nums = Math.random().toString().slice(2, 6);
+        const link = base + str + nums;
+        pushToList(link);
+        window.open(link);
+      }
+
+      function generateLetters(length) {
+        const chars = "abcdefghijklmnopqrstuvwxyz";
+        let result = "";
+        for (var i = 0; i < length; i++) {
+          result += chars.charAt(Math.floor(Math.random() * chars.length));
+        }
+        return result;
+      }
+
+      function pushToList(link) {
+        if (links.length >= 10) {
+          links.shift();
+        }
+
+        links.push(link);
+
+        const l = document.getElementById("list");
+
+        while (l.firstChild) {
+          l.removeChild(l.firstChild);
+        }
+
+        for (let i = links.length - 1; i >= 0; i--) {
+          let c = document.createElement("li");
+          c.classList = "list-group-item disabled";
+          c.textContent = links[i];
+          l.appendChild(c);
+        }
+      }
+    </script>
+  </body>
+</html>
